@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -70,6 +70,30 @@ export class LayoutComponent implements OnInit {
        emite a nuevos suscriptores */
     const behaviourSubjectSubscriber3 = randomNumberBehaviourSubject.subscribe(number => {
       console.log(`behaviourSubjectSubscriber3 received ${number}`);
+    });
+
+    /* Ejemplo 4: ReplaySubject. El ReplaySubject es un BehaviourSubject que puede guardar
+       un número arbitrario de valores previos, y emitirlos a nuevos suscriptores */
+
+    /* Se puede pasar un tamaño de buffer al ReplaySubject */
+    const randomNumberReplaySubject = new ReplaySubject();
+
+    const replaySubjectSubscriber1 = randomNumberReplaySubject.subscribe(number => {
+      console.log(`replaySubjectSubscriber1 received ${number}`);
+    });
+
+    const replaySubjectSubscriber2 = randomNumberReplaySubject.subscribe(number => {
+      console.log(`replaySubjectSubscriber2 received ${number}`)
+    });
+
+    randomNumberReplaySubject.next(Math.random());
+    randomNumberReplaySubject.next(Math.random());
+    randomNumberReplaySubject.next(Math.random());
+
+    /* Verá los mismos valores que 1 y 2, ya que el ReplaySubject guarda los mismos
+       valores previoes y los emiten a todos los suscriptores */
+    const replaySubjectSubscriber3 = randomNumberReplaySubject.subscribe(number => {
+      console.log(`replaySubjectSubscriber3 received ${number}`);
     });
   }
 }
