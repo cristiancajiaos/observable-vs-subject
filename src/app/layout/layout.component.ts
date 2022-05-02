@@ -12,7 +12,7 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     /* Ejemplo 1: Observables. Unicast por defecto.
-       Cada suscribible ve su propia ejecución del observable */
+       Cada suscribible en que se use el ve su propia ejecución del observable */
 
     const randomNumberObservable = new Observable((observer) => {
       observer.next(Math.random());
@@ -31,7 +31,7 @@ export class LayoutComponent implements OnInit {
     });
 
     /* Ejemplo 2: Subject. Los Subjects son multicast por defecto.
-       Múltiples suscribibles comparten un stream de ejecución */
+       Múltiples suscribibles que usen un Subject comparten un stream de ejecución */
 
     const randomNumberSubject = new Subject();
 
@@ -45,6 +45,8 @@ export class LayoutComponent implements OnInit {
 
     randomNumberSubject.next(Math.random());
 
+    /* No se ve nada. La suscripción es luego de que subject.next() se llame,
+       y los Subjects básicos no guardan valores previos. */
     const subjectSubscriber3 = randomNumberSubject.subscribe(number => {
       console.log(`subjectSubscriber3 received ${number}`);
     });
@@ -91,7 +93,7 @@ export class LayoutComponent implements OnInit {
     randomNumberReplaySubject.next(Math.random());
 
     /* Verá los mismos valores que 1 y 2, ya que el ReplaySubject guarda los mismos
-       valores previoes y los emiten a todos los suscriptores */
+       valores previos y los emiten a todos los suscriptores */
     const replaySubjectSubscriber3 = randomNumberReplaySubject.subscribe(number => {
       console.log(`replaySubjectSubscriber3 received ${number}`);
     });
