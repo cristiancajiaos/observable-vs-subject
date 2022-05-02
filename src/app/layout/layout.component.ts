@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-layout',
@@ -50,5 +50,26 @@ export class LayoutComponent implements OnInit {
     });
 
     // randomNumberSubject.next(Math.random());
+
+    /* Ejemplo 3: BehaviourSubject. El BehaviourSubject se distingue del Subject
+       en el hecho que es un Subject regular, pero que siempre guarda el valor previo */
+
+    const randomNumberBehaviourSubject = new BehaviorSubject(-99999);
+
+    const behaviourSubjectSubscriber1 = randomNumberBehaviourSubject.subscribe(number => {
+      console.log(`behaviourSubjectSubscriber1 received ${number}`);
+    });
+
+    const behaviourSubjectSubscriber2 = randomNumberBehaviourSubject.subscribe(number => {
+      console.log(`behaviourSubjectSubscriber2 received ${number}`);
+    });
+
+    randomNumberBehaviourSubject.next(Math.random());
+
+    /* Mismo valor que 1 y 2, el BehaviourSubject guarda el valor previo, y lo
+       emite a nuevos suscriptores */
+    const behaviourSubjectSubscriber3 = randomNumberBehaviourSubject.subscribe(number => {
+      console.log(`behaviourSubjectSubscriber3 received ${number}`);
+    });
   }
 }
